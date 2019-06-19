@@ -7,6 +7,8 @@ import os
 img = input("Image: ")
 CONV = int(input("Scale Down:  "))
 
+
+#naming system for files
 def check_file(fn, n):
     n1 = n
     if n > 0:
