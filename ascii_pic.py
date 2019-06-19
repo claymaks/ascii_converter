@@ -22,7 +22,8 @@ def check_file(fn, n):
         return check_file(fn, n)
     return fn
         
-
+def average(a,b):
+    return (a+b)/2
 
 if platform == "linux" or platform == "linux2":
     fn = img.split("/")[-1].split(".")[0]
@@ -51,29 +52,32 @@ cv2.imwrite((fn + ".png"),gray)
 
 c = []
 val = ' '
-for y in range(0, gray.shape[0]):
+for y in range(0, gray.shape[0], 2):
     r = []
     for x in range(0, gray.shape[1]):
-        if (gray[y][x]/255) > .9:
-            val = ' '
-        elif (gray[y][x]/255) > .8:
-            val = '·'
-        elif (gray[y][x]/255) > .7:
-            val = '-'
-        elif (gray[y][x]/255) > .6:
-            val = '='
-        elif (gray[y][x]/255) > .5:
-            val = '+'
-        elif (gray[y][x]/255) > .4:
-            val = '#'
-        elif (gray[y][x]/255) > .3:
-            val = '▒'
-        elif (gray[y][x]/255) > .2:
-            val = '▓'
-        else:
-            val = '█'
-    
-        r.append(val)
+        try:
+            if (average(gray[y][x]/255,gray[y+1][x]/255)) > .9:
+                val = ' '
+            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .8:
+                val = '·'
+            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .7:
+                val = '-'
+            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .6:
+                val = '='
+            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .5:
+                val = '+'
+            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .4:
+                val = '#'
+            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .3:
+                val = '▒'
+            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .2:
+                val = '▓'
+            else:
+                val = '█'
+        
+            r.append(val)
+        except:
+            pass
     c.append(r)
 
 
@@ -81,7 +85,7 @@ for y in range(0, gray.shape[0]):
 
 file = open((fn + ".txt"), "w")
 
-for y in range(0, gray.shape[0]):
+for y in range(0, gray.shape[0]//2):
     for x in range(0, gray.shape[1]):
         file.write(c[y][x])
     file.write("\n")
