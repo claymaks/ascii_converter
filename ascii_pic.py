@@ -1,10 +1,24 @@
-import numpy as np
-import cv2
-from sys import platform
+"""
+Converts digital images to ascii text documents
+"""
+
+__author__ = "Clayton Maksymiuk"
+__copyright__ = ""
+__credits__ = ["Clayton Maksymiuk", "Joshua Schember"]
+__license__ = ""
+__version__ = "1.0.0"
+__maintainer__ = "Clayton Maksymiuk"
+__email__ = ["clayton.maksymiuk@fishrco.com, cmaks@umich.edu", "joshuaschember@gmail.com"]
+__status__ = "Developement"
+
 import os
+from sys import platform
+import cv2
 
 
-img = input("Image: ")
+
+
+IMG = input("Image: ")
 CONV = int(input("Scale Down:  "))
 
 
@@ -13,7 +27,7 @@ def check_file(fn, n):
     n1 = n
     if n > 0:
         fn = fn[0:-len(str(n-1))] + str(n)
-    for subdir, dirs, files in os.walk('./'):
+    for _, _, files in os.walk('./'):
         for file in files:
             if '.' in file:
                 if file == fn + ".png":
@@ -21,22 +35,22 @@ def check_file(fn, n):
     if n != n1:
         return check_file(fn, n)
     return fn
-        
-def average(a,b):
+
+def average(a, b):
     return (a+b)/2
 
 if platform == "linux" or platform == "linux2":
-    fn = img.split("/")[-1].split(".")[0]
+    fn = IMG.split("/")[-1].split(".")[0]
 elif platform == "darwin":
-    fn = img.split("/")[-1].split(".")[0]
+    fn = IMG.split("/")[-1].split(".")[0]
 elif platform == "win32":
-    fn = img.split("\\")[-1].split(".")[0]
+    fn = IMG.split("\\")[-1].split(".")[0]
 
 
 
 
 
-image = cv2.imread(img)
+image = cv2.imread(IMG)
 arog = image.copy()
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 gray = cv2.resize(gray, (gray.shape[1]//CONV, gray.shape[0]//CONV))
@@ -56,32 +70,28 @@ for y in range(0, gray.shape[0], 2):
     r = []
     for x in range(0, gray.shape[1]):
         try:
-            if (average(gray[y][x]/255,gray[y+1][x]/255)) > .9:
+            if (average(gray[y][x]/255, gray[y+1][x]/255)) > .9:
                 val = ' '
-            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .8:
+            elif (average(gray[y][x]/255, gray[y+1][x]/255)) > .8:
                 val = '·'
-            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .7:
+            elif (average(gray[y][x]/255, gray[y+1][x]/255)) > .7:
                 val = '-'
-            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .6:
+            elif (average(gray[y][x]/255, gray[y+1][x]/255)) > .6:
                 val = '='
-            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .5:
+            elif (average(gray[y][x]/255, gray[y+1][x]/255)) > .5:
                 val = '+'
-            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .4:
+            elif (average(gray[y][x]/255, gray[y+1][x]/255)) > .4:
                 val = '#'
-            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .3:
+            elif (average(gray[y][x]/255, gray[y+1][x]/255)) > .3:
                 val = '▒'
-            elif (average(gray[y][x]/255,gray[y+1][x]/255)) > .2:
+            elif (average(gray[y][x]/255, gray[y+1][x]/255)) > .2:
                 val = '▓'
             else:
                 val = '█'
-        
             r.append(val)
         except:
             pass
     c.append(r)
-
-
-
 
 file = open((fn + ".txt"), "w")
 
@@ -90,7 +100,4 @@ for y in range(0, gray.shape[0]//2):
         file.write(c[y][x])
     file.write("\n")
 file.close()
-
-    
-
 
