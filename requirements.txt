@@ -1,4 +1,2 @@
-os
 subprocess
-sys
 opencv-python
