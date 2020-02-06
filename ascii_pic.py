@@ -8,7 +8,7 @@ __credits__ = ["Clayton Maksymiuk", "Joshua Schember"]
 __license__ = ""
 __version__ = "1.0.0"
 __maintainer__ = "Clayton Maksymiuk"
-__email__ = ["clayton.maksymiuk@fishrco.com, cmaks@umich.edu", "joshuaschember@gmail.com"]
+__email__ = ["cmaks@umich.edu", "joshuaschember@gmail.com"]
 __status__ = "Developement"
 
 import os
