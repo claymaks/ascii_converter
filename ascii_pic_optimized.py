@@ -51,9 +51,10 @@ elif platform == "win32":
 
 
 
-image = cv2.imread(IMG)
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+gray = cv2.cvtColor(cv2.imread(IMG), cv2.COLOR_BGR2GRAY)
 gray = cv2.resize(gray, (gray.shape[1]//CONV, gray.shape[0]//CONV))
+
 
 n = 0
 fn += str(gray.shape[0]) + "x" + str(gray.shape[1]) + "-" + str(n)
@@ -61,29 +62,26 @@ fn = check_file(fn, n)
 
 
 
-#cv2.imshow("Gray", gray)
-cv2.imwrite((fn + ".png"),gray)
-
 file = open((fn + ".txt"), "w")
 for y in range(0, gray.shape[0], 2):
     for x in range(0, gray.shape[1]):
         try:
-            val = average(gray[y][x]/255, gray[y+1][x]/255)
-            if (val) > .95:
+            val = average(int(gray[y][x]), int(gray[y+1][x]))
+            if (val) > 242.25:
                 file.write(' ')
-            elif (val) > .43:
+            elif (val) > 109.65:
                 file.write('·')
-            elif (val) > .38:
+            elif (val) > 96.9:
                 file.write('+')
-            elif (val) > .26:
+            elif (val) > 66.3:
                 file.write('#')
-            elif (val) > .17:
+            elif (val) > 43.35:
                 file.write('▒')
-            elif (val) > .05:
+            elif (val) > 12.75:
                 file.write('▓')
             else:
                 file.write('█')
-            
+        
         except:
             pass
     file.write("\n")
