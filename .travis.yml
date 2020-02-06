@@ -1,0 +1,5 @@
+language: python
+rvm:
+ - 3.7.3
+install:
+  - pip3 install opencv-python
